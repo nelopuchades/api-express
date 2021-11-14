@@ -16,6 +16,4 @@ app.get('/new-route', (req, res) => {
 
 setupRoutes(app);
 
-app.listen(port, () => {
-    console.log(`Listening on port ${port}...`);
-})
+app.listen(port);

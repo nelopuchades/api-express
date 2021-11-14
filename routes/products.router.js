@@ -82,7 +82,6 @@ router.post('/', (req, res) => {
 
 router.patch('/:productId', (req, res) => {
     const { productId } = req.params;
-    console.log('req.params', req.params);
     const body = req.body;
     res.json({
         message: 'Updated',
