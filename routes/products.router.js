@@ -4,18 +4,22 @@ const ProductsService = require('../services/product.service');
 const router = express.Router();
 const ProductService = new ProductsService();
 
-router.get('/', (req, res) => {
-    const products = ProductService.find();
+router.get('/', async (req, res) => {
+    const products = await ProductService.find();
 
     res.json(products);
 });
 
-router.get('/:productId', (req, res) => {
-    const { productId } = req.params;
-
-    const product = ProductService.findOne(productId);
-
-    res.json(product);
+router.get('/:productId', async (req, res) => {
+    try {
+        const { productId } = req.params;
+        const product = await ProductService.findOne(productId);
+        res.json(product);
+    } catch (error) {
+        res.status(404).json({
+            message: error,
+        });
+    }
 });
 
 router.get('/:productId/categories/:categoryId', (req, res) => {
@@ -46,20 +50,26 @@ router.get('/:productId/categories/:categoryId', (req, res) => {
     }
 });
 
-router.post('/', (req, res) => {
-    const productCreated = ProductService.create(req.body);
+router.post('/', async (req, res) => {
+    const productCreated = await ProductService.create(req.body);
     res.status(201).json(productCreated);
 });
 
-router.patch('/:productId', (req, res) => {
-    const { productId } = req.params;
-    const patchedProduct = ProductService.update(productId, req.body);
-    res.json(patchedProduct);
+router.patch('/:productId', async (req, res) => {
+    try {
+        const { productId } = req.params;
+        const patchedProduct = await ProductService.update(productId, req.body);
+        res.json(patchedProduct);
+    } catch (error) {
+        res.status(404).json({
+            message: error.message
+        });      
+    }
 });
 
-router.delete('/:productId', (req, res) => {
+router.delete('/:productId', async (req, res) => {
     const { productId } = req.params;
-    const deletedProduct = ProductService.delete(productId);
+    const deletedProduct = await ProductService.delete(productId);
     res.json(deletedProduct);
 });
 
