@@ -70,10 +70,28 @@ router.get('/:productId/categories/:categoryId', (req, res) => {
 
 router.post('/', (req, res) => {
     const body = req.body;
-    console.log('body', body);
     res.json({
         message: 'Created',
         data: body
+    });
+});
+
+router.patch('/:productId', (req, res) => {
+    const { productId } = req.params;
+    console.log('req.params', req.params);
+    const body = req.body;
+    res.json({
+        message: 'Updated',
+        data: body,
+        id: productId,
+    });
+});
+
+router.delete('/:productId', (req, res) => {
+    const { productId } = req.params;
+    res.json({
+        message: 'Deleted',
+        productId,
     });
 });
 
