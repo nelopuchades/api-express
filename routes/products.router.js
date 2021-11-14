@@ -34,10 +34,14 @@ router.get('/:productId', (req, res) => {
         }
     ];
 
-
     const product = products.find(prod => prod.id === parseInt(productId));
-    
-    res.json(product);
+    if (!product) {
+        res.status(404).json({
+            message: 'Not Found'
+        });
+    } else {
+        res.status(200).json(product);
+    }
 });
 
 router.get('/:productId/categories/:categoryId', (req, res) => {
@@ -70,7 +74,7 @@ router.get('/:productId/categories/:categoryId', (req, res) => {
 
 router.post('/', (req, res) => {
     const body = req.body;
-    res.json({
+    res.status(201).json({
         message: 'Created',
         data: body
     });
