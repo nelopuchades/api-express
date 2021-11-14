@@ -1,6 +1,8 @@
 const express = require('express');
 const setupRoutes = require('./routes/index');
 
+const { errorLogger, errorHandler } = require('./middlewares/error.handler');
+
 const app = express();
 const port = 3000;
 
@@ -15,5 +17,8 @@ app.get('/new-route', (req, res) => {
 });
 
 setupRoutes(app);
+
+app.use(errorLogger);
+app.use(errorHandler);
 
 app.listen(port);

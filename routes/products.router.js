@@ -10,15 +10,13 @@ router.get('/', async (req, res) => {
     res.json(products);
 });
 
-router.get('/:productId', async (req, res) => {
+router.get('/:productId', async (req, res, next) => {
     try {
         const { productId } = req.params;
         const product = await ProductService.findOne(productId);
         res.json(product);
     } catch (error) {
-        res.status(404).json({
-            message: error,
-        });
+        next(error);
     }
 });
 
@@ -55,15 +53,13 @@ router.post('/', async (req, res) => {
     res.status(201).json(productCreated);
 });
 
-router.patch('/:productId', async (req, res) => {
+router.patch('/:productId', async (req, res, next) => {
     try {
         const { productId } = req.params;
         const patchedProduct = await ProductService.update(productId, req.body);
         res.json(patchedProduct);
     } catch (error) {
-        res.status(404).json({
-            message: error.message
-        });      
+        next(error);
     }
 });
 
