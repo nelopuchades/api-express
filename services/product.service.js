@@ -17,24 +17,47 @@ class ProductsService {
         }
     }
 
-    create() {
+    create(data) {
+        const newProduct = {
+            id: faker.datatype.uuid(),
+            ...data
+        }
 
+        this.products.push(newProduct);
+
+        return newProduct;
     }
     
     find() {
         return this.products;
     }
 
-    findOne(id) {
-        return this.products.find(product => product.id === id);
+    findOne(productId) {
+        return this.products.find(product => product.id === productId);
     }
 
-    update() {
+    update(productId, newProduct) {
+        const index = this.products.findIndex(product => product.id === productId);
+        if (index === -1) {
+            throw new Error('Product not found');
+        }
 
+        this.products[index] = {
+            ...this.products[index],
+            ...newProduct
+        };
+
+        return this.products[index];
     }
 
-    delete() {
+    delete(productId) {
+        const index = this.products.findIndex(product => product.id === productId);
+        if (index === -1) {
+            throw new Error('Product not found');
+        }
 
+        this.products.slice(index, 1);
+        return { id: productId };
     }
 }
 
